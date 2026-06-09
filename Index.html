@@ -7,14 +7,15 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; text-align: center; padding: 50px; }
         .container { max-width: 600px; margin: auto; background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .upload-box { border: 2px dashed #3b82f6; padding: 40px; border-radius: 8px; cursor: pointer; background: #1e293b; transition: 0.3s; }
+        .upload-box { border: 2px dashed #3b82f6; padding: 40px; border-radius: 8px; cursor: pointer; background: #1e293b; transition: 0.3s; margin-bottom: 20px; }
         .upload-box:hover { background: #334155; }
-        button { background: #2563eb; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 6px; cursor: pointer; margin-top: 20px; font-weight: bold; }
+        button { background: #2563eb; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; }
         button:hover { background: #1d4ed8; }
-        #loading { display: none; margin-top: 20px; font-style: italic; color: #60a5fa; }
+        #loading { display: none; margin-top: 20px; font-style: italic; color: #38bdf8; font-weight: bold; }
         #result { display: none; margin-top: 20px; background: #0f172a; padding: 20px; border-radius: 8px; border: 1px solid #334155; }
-        a { color: #4ade80; font-weight: bold; text-decoration: none; word-break: break-all; }
+        a { color: #4ade80; font-weight: bold; text-decoration: none; word-break: break-all; display: inline-block; margin-top: 10px; font-size: 18px; }
         a:hover { text-decoration: underline; }
+        #fileName { color: #4ade80; font-weight: bold; margin-top: 15px; font-size: 14px; background: #0f172a; padding: 5px; border-radius: 4px; display: none; }
     </style>
 </head>
 <body>
@@ -23,35 +24,44 @@
     <h2>🚀 Instant Free Project Hosting</h2>
     <p>No Signup, No Fees. Just upload your project ZIP and get a live link instantly!</p>
     
+    <!-- File Input Hidden, Click triggers via Div -->
     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-        <p>📂 Click here or Drag & Drop your Project ZIP file</p>
+        <p style="margin:0; font-size: 18px;">📂 Click here to select your Project ZIP file</p>
         <input type="file" id="fileInput" accept=".zip" style="display:none;" onchange="showSelectedName()">
-        <div id="fileName" style="color: #4ade80; font-weight: bold; margin-top: 10px;"></div>
+        <div id="fileName"></div>
     </div>
 
     <button onclick="startFakeDeployment()">Deploy Project</button>
 
-    <div id="loading">🚀 Deploying project... Please wait...</div>
+    <!-- Loading Animation State -->
+    <div id="loading">⏳ Processing ZIP... Configuring Server... Deploying Live...</div>
 
+    <!-- Output Box -->
     <div id="result">
-        <p style="color: #4ade80; font-size: 18px; margin: 0 0 10px 0;">🎉 Project Deployed Successfully!</p>
-        <p>Your Live Dummy Domain:</p>
+        <p style="color: #4ade80; font-size: 20px; margin: 0 0 10px 0; font-weight: bold;">🎉 Project Deployed Successfully!</p>
+        <p style="margin: 5px 0;">Your Live Subdomain:</p>
         <a id="dummyLink" href="#" target="_blank"></a>
     </div>
 </div>
 
 <script>
+    // Fixed the file object bug here
     function showSelectedName() {
         const fileInput = document.getElementById('fileInput');
         const fileNameDiv = document.getElementById('fileName');
-        if(fileInput.files.length > 0) {
-            fileNameDiv.innerText = "Selected File: " + fileInput.files[0].name;
+        
+        if (fileInput.files && fileInput.files.length > 0) {
+            fileNameDiv.innerText = "📄 Selected: " + fileInput.files[0].name;
+            fileNameDiv.style.display = "block";
         }
     }
 
+    // Main Deployment Simulation Logic
     function startFakeDeployment() {
         const fileInput = document.getElementById('fileInput');
-        if (fileInput.files.length === 0) {
+        
+        // Validation check
+        if (!fileInput.files || fileInput.files.length === 0) {
             alert("Please select a ZIP file first!");
             return;
         }
@@ -60,22 +70,26 @@
         const result = document.getElementById('result');
         const dummyLink = document.getElementById('dummyLink');
 
+        // Reset display states
         result.style.display = "none";
         loading.style.display = "block";
 
+        // 3 Seconds delay simulation
         setTimeout(() => {
             loading.style.display = "none";
             result.style.display = "block";
             
+            // Random domain generation
             const randomID = Math.floor(100000 + Math.random() * 900000);
             const dummyURL = `https://user-project-${randomID}.freehost.com`;
             
             dummyLink.innerText = dummyURL;
             dummyLink.href = dummyURL;
             
+            // Onclick Alert for Teacher Presentation
             dummyLink.onclick = function(e) {
                 e.preventDefault();
-                alert(`🎯 Project Simulated Link:\n${dummyURL}\n\nThis simulation demonstrates automated serverless instant delivery logic for college evaluation.`);
+                alert(`🎯 Demo Alert:\nThis is the unique temporary URL generated for this project deployment:\n\n${dummyURL}\n\nSince this is a frontend architecture prototype for college submission, it successfully executed the deployment logic workflow without database overhead.`);
             };
         }, 3000);
     }
