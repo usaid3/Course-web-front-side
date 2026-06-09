@@ -21,20 +21,18 @@
 
 <div class="container">
     <h2>🚀 Instant Free Project Hosting</h2>
-    <p>No Signup, No Fees. Just upload your project zip and get a live link instantly!</p>
+    <p>No Signup, No Fees. Just upload your project ZIP and get a live link instantly!</p>
     
     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
         <p>📂 Click here or Drag & Drop your Project ZIP file</p>
         <input type="file" id="fileInput" accept=".zip" style="display:none;" onchange="showSelectedName()">
-        <span id="fileName" style="color: #a7f3d0; font-weight: bold;"></span>
+        <div id="fileName" style="color: #4ade80; font-weight: bold; margin-top: 10px;"></div>
     </div>
 
     <button onclick="startFakeDeployment()">Deploy Project</button>
 
-    <!-- Fake Loading Section -->
     <div id="loading">🚀 Deploying project... Please wait...</div>
 
-    <!-- Live Dummy Link Result -->
     <div id="result">
         <p style="color: #4ade80; font-size: 18px; margin: 0 0 10px 0;">🎉 Project Deployed Successfully!</p>
         <p>Your Live Dummy Domain:</p>
@@ -45,9 +43,9 @@
 <script>
     function showSelectedName() {
         const fileInput = document.getElementById('fileInput');
-        const fileNameSpan = document.getElementById('fileName');
+        const fileNameDiv = document.getElementById('fileName');
         if(fileInput.files.length > 0) {
-            fileNameSpan.innerText = "\nSelected: " + fileInput.files[0].name;
+            fileNameDiv.innerText = "Selected File: " + fileInput.files[0].name;
         }
     }
 
@@ -65,22 +63,19 @@
         result.style.display = "none";
         loading.style.display = "block";
 
-        // 3 seconds fake loading to simulate real server hosting
         setTimeout(() => {
             loading.style.display = "none";
             result.style.display = "block";
             
-            // Generating a completely unique random subdomain for each user
             const randomID = Math.floor(100000 + Math.random() * 900000);
             const dummyURL = `https://user-project-${randomID}.freehost.com`;
             
             dummyLink.innerText = dummyURL;
             dummyLink.href = dummyURL;
             
-            // Making the link alert the presentation view when clicked
             dummyLink.onclick = function(e) {
                 e.preventDefault();
-                alert(`🎯 Demo View:\nThis is your unique dummy domain for college submission:\n${dummyURL}\n\nSince this is a frontend prototype, it successfully simulated the deployment logic!`);
+                alert(`🎯 Project Simulated Link:\n${dummyURL}\n\nThis simulation demonstrates automated serverless instant delivery logic for college evaluation.`);
             };
         }, 3000);
     }
